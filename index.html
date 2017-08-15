@@ -48,25 +48,27 @@
         	id : i
         	
 		});
-    }
+    
 		//Push marker to our marker array
 		Markers.push(marker);
 
-		//create onclick event on marker
+		//create onclick event on  individual marker
 		marker.addListener("click", function() {
-			populateInfoWindow(this , largeInfowindow);
+			populateInfoWindow(this, largeInfowindow);
 		});
-		bound.extend(markers[i].position);
+		bound.extend(Markers[i].position);
 	}
 
 	//set boundries of map
 	map.fitBounds(bound);
+}
+
 
 	// This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
     // on that markers position.
 
-	function populateInfowindow (marker , infowindow){
+	function populateInfoWindow (marker , infowindow){
 		// Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
           infowindow.marker = marker;
