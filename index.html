@@ -31,6 +31,7 @@
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
+        var bound = new google.maps.LatLngBounds();
 
         // creating array of markers
         for (var i = 0 ; i < locations.length ; i ++){
@@ -55,7 +56,11 @@
 		marker.addListener("click", function() {
 			populateInfoWindow(this , largeInfowindow);
 		});
+		bound.extend(markers[i].position);
 	}
+
+	//set boundries of map
+	map.fitBounds(bound);
 
 	// This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
