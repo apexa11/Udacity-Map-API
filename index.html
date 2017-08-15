@@ -14,6 +14,7 @@
           center: {lat: 40.7413549, lng: -73.9980244},
           zoom: 13
         });
+        
         // adding marker
         var point = {lat: 40.719526, lng: -74.0089934};
         var marker = new google.maps.Marker({
@@ -21,6 +22,18 @@
         	map : map,
         	title : "first marker"
         });
+        
+        //creating info window
+        var infowindow = new google.maps.InfoWindow({
+        	content :'what place is this?'
+        });
+        
+        //adding eventlistner to where info window open
+        marker.addListener('click', function(){
+        	infowindow.open(map,marker);
+        })
+
+
       }
     </script>
 
