@@ -5,8 +5,18 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div id = "container">
+	<div id="option-box">
+	<h1> Find Your NYC home </h1>
+	<div>
+		<input type="button" id="show-listing" value="Show">
+		<input type="button" id="hide-listing" value="Hide">
+	</div>
+	</div>
+	</div>
 	<div id="map"></div>
     <script>
+
       var map;
 
       // creating marker
@@ -61,6 +71,10 @@
 
 	//set boundries of map
 	map.fitBounds(bound);
+
+	document.getElementById('show-listing').addEventListener("click", Show);
+	document.getElementById('hide-listing').addEventListener("click", Hide);
+
 }
 
 
