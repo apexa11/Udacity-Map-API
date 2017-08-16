@@ -9,8 +9,8 @@
 	<div id="option-box">
 	<h1> Find Your NYC home </h1>
 	<div>
-		<input type="button" id="show-listing" value="Show">
-		<input type="button" id="hide-listing" value="Hide">
+		<input type="button" id="show-listing" value="Show Location">
+		<input type="button" id="hide-listing" value="Hide Location">
 	</div>
 	</div>
 	</div>
@@ -23,10 +23,81 @@
       var Markers = [];
 
       function initMap() {
+      	// create styles
+      	var styles = [
+          {
+            featureType: 'water',
+            stylers: [
+              { color: '#A2DBF5'}
+            ]
+          },{
+            featureType: 'administrative',
+            elementType: 'labels.text.stroke',
+            stylers: [
+              { color: '#ffffff' },
+              { weight: 6 }
+            ]
+          },{
+            featureType: 'administrative',
+            elementType: 'labels.text.fill',
+            stylers: [
+              { color: '#F35356' }
+            ]
+          },{
+            featureType: 'road.highway',
+            elementType: 'geometry.stroke',
+            stylers: [
+              { color: '#efe9e4' },
+              { lightness: -40 }
+            ]
+          },{
+            featureType: 'transit.station',
+            stylers: [
+              { weight: 20 },
+              { hue: '#e85113' }
+            ]
+          },{
+            featureType: 'road.highway',
+            elementType: 'labels.icon',
+            stylers: [
+              { visibility: 'on' }
+            ]
+          },{
+            featureType: 'water',
+            elementType: 'labels.text.stroke',
+            stylers: [
+              { lightness: 200 }
+            ]
+          },{
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [
+              { lightness: -100 }
+            ]
+          },{
+            featureType: 'poi',
+            elementType: 'geometry',
+            stylers: [
+              { visibility: 'on' },
+              { color: '#f0e4d3' }
+            ]
+          },{
+            featureType: 'road.highway',
+            elementType: 'geometry.fill',
+            stylers: [
+              { color: '#261A2A' },
+              { lightness: -15 }
+            ]
+          }
+        ];
+  
+      
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.7413549, lng: -73.9980244},
-          zoom: 13
+          zoom: 13,
+          styles : styles,
+          mapTypeControl: false
         });
         
         // These are the real estate listings that will be shown to the user.
@@ -41,7 +112,7 @@
         ];
 
         var largeInfowindow = new google.maps.InfoWindow();
-        var bound = new google.maps.LatLngBounds();
+        
 
         // creating array of markers
         for (var i = 0 ; i < locations.length ; i ++){
@@ -51,7 +122,7 @@
         var title = locations[i].title;
         //create marker per location and put it into marker's array
         var marker = new google.maps.Marker({
-        	map :map,
+      
         	position : position,
         	title : title,
         	animation : google.maps.Animation.DROP,
@@ -66,11 +137,10 @@
 		marker.addListener("click", function() {
 			populateInfoWindow(this, largeInfowindow);
 		});
-		bound.extend(Markers[i].position);
+		
 	}
 
-	//set boundries of map
-	map.fitBounds(bound);
+	
 
 	document.getElementById('show-listing').addEventListener("click", ShowListing);
 	document.getElementById('hide-listing').addEventListener("click", HideListing);
@@ -87,13 +157,37 @@
         if (infowindow.marker != marker) {
           infowindow.marker = marker;
           infowindow.setContent('<div>' + marker.title + '</div>');
-          infowindow.open(map, marker);
+          infowindow.open(map, marker );
           // Make sure the marker property is cleared if the infowindow is closed.
           infowindow.addListener('closeclick',function(){
             infowindow.setMarker = null;
           });
         }
       }
+
+      // showlistinh function goes here
+      function ShowListing(){
+      	var bound = new google.maps.LatLngBounds();
+      	for(var i=0 ; i< Markers.length ; i++) {
+      		Markers[i].setMap(map);
+      		bound.extend(Markers[i].position);
+
+      	}
+      	//set boundries of map
+		map.fitBounds(bound);
+
+
+      }
+
+
+      //hidelisting function goes here
+      function HideListing(){
+      	for(var i=0 ; i< Markers.length ; i++) {
+      		Markers[i].setMap(null);
+
+
+      }
+  }
 
 	
 
