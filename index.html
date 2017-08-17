@@ -281,6 +281,10 @@
       function toggleDrawing(drawingManager){
       	if(drawingManager.map){
       		drawingManager.setMap(null);
+      		// after complete polygon 
+      		if (polygon){
+      			polygon.setMap(null);
+      		}
       	}else{
       		drawingManager.setMap(map);
       	}
