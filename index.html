@@ -168,7 +168,7 @@
             infowindow.marker = null;
           });
           var streetViewService = new google.maps.StreetViewService();
-          var radius = 50;
+          var radius = 30;
           // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
           // panorama from that and set the options
@@ -236,7 +236,7 @@
 
     <script async defer
         src=
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyAokV43YDgDadTMFZpi6emos4vlh8fYMtE&libraries=geometry&v=3&callback=initMap">
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyAokV43YDgDadTMFZpi6emos4vlh8fYMtE&libraries=drawing,geometry&v=3&callback=initMap">
     </script>
 
   </body>
