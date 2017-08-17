@@ -116,7 +116,7 @@
         var largeInfowindow = new google.maps.InfoWindow();
 
         //drwaing manger
-        function drawingManager = new google.maps.drawing.DrawingManager({
+        var drawingManager = new google.maps.drawing.DrawingManager({
         	drawingMode: google.maps.drawing.OverlayType.POLYGON,
     		drawingControl: true,
     		drawingControlOptions: {
@@ -124,7 +124,7 @@
       		drawingModes: [google.maps.drawing.OverlayType.POLYGON]
       		}	
 
-        })
+        });
 
 
         // Style the markers a bit. This will be our listing marker icon.
@@ -165,6 +165,9 @@
 
         document.getElementById('show-listings').addEventListener('click', showListings);
         document.getElementById('hide-listings').addEventListener('click', hideListings);
+        document.getElementById('toggle-drawing').addEventListener('click', function(){
+        	toggleDrawing(drawingManager);
+        });
 
       }
 
@@ -244,6 +247,16 @@
           new google.maps.Point(10, 34),
           new google.maps.Size(21,34));
         return markerImage;
+      }
+
+      // This shows and Hides (drawing options)
+      function toggleDrawing(drawingManager){
+      	if(drawingManager.map){
+      		drawingManager.setMap(null);
+      	}else{
+      		drawingManager.setMap(map);
+      	}
+
       }
 
     </script>
