@@ -181,6 +181,8 @@
           infowindow.addListener('closeclick',function(){
             infowindow.setMarker = null;
           });
+          var streetViewService = new google.maps.StreetViewService();
+          var radius = 50;
         }
       }
 
