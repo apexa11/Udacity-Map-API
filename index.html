@@ -112,6 +112,17 @@
 
         var largeInfowindow = new google.maps.InfoWindow();
 
+        //drwaing manger
+        function drawingManager = new google.maps.drawing.DrawingManager({
+        	drawingMode: google.maps.drawing.OverlayType.POLYGON,
+    		drawingControl: true,
+    		drawingControlOptions: {
+      		position: google.maps.ControlPosition.TOP_CENTER,
+      		drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+      		}	
+
+        })
+
 
         // Style the markers a bit. This will be our listing marker icon.
         var defaultIcon = makeMarkerIcon('3FCD34');
