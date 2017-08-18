@@ -20,8 +20,8 @@
           <input id="zoom-to-area" type="button" value="Zoom">
         </div>
         <div id="floating-panel">
-          <input id="address" type="textbox" VALUE="Red Fort, Delhi">
-          <input id="submit" type="button" value="Geocode">
+          <input id="address" type="textbox" placeholder = " Global search">
+          <input id="submit" type="button" value="Go">
           <div id ="firstComponent"></div>
           <div id ="secondComponent"></div>
         </div>
@@ -362,8 +362,6 @@
               map : resultsMap,
               position : results[0].geometry.location
             });
-            document.getElementById('firstComponent').innerHTML="The Formatted Address is:http://maps.googleapis.com/maps/api/geocode/JSON?address"; // PUT STUFF HERE
-            document.getElementById('secondComponent').innerHTML="The Location is:"; // PUT STUFF HERE
             } else {
             alert('Geocode was not successful for the following reason: ' + status);
 
