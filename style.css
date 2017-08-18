@@ -66,3 +66,10 @@ html,
         color:#F2F3F6 ; 
         border-radius: 5px;
       }
+      #zoom-to-area-text {
+        position: relative;
+        width: 70%;
+      }
+      #zoom-to-area {
+        width: 24%;
+      }

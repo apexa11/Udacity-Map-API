@@ -14,6 +14,11 @@
           <span>Draw a shape to search within it for homes! </span>
           <input id="toggle-drawing" type="button" value = "Drawing Tools">
         </div>
+        <!--Geocoding start -->
+        <div>
+          <input id ="zoom-to-area-text" type ="text" placeholder = "Enter Your Place">
+          <input id="zoom-to-area" type="button" value="Zoom">
+        </div>
       </div>
       <div id="map"></div>
     </div>
@@ -163,13 +168,18 @@
           marker.addListener('mouseout', function() {
             this.setIcon(defaultIcon);
           });
+
         }
 
         document.getElementById('show-listings').addEventListener('click', showListings);
         document.getElementById('hide-listings').addEventListener('click', hideListings);
         document.getElementById('toggle-drawing').addEventListener('click', function(){
         	toggleDrawing(drawingManager);
+          });
+        document.getElementById('zomm-to-text').addEventListener('click',function(){
+          zoomToArea();
         });
+        
 
       
 
