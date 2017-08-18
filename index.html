@@ -20,7 +20,7 @@
           <input id="zoom-to-area" type="button" value="Zoom">
         </div>
         <div id="floating-panel">
-          <input id="address" type="textbox" VALUE="type your address">
+          <input id="address" type="textbox" VALUE="Red Fort, Delhi">
           <input id="submit" type="button" value="Geocode">
           <div id ="firstComponent"></div>
           <div id ="secondComponent"></div>
@@ -353,7 +353,22 @@
         }
       }
 
-      function geocoderaddress(geocoder , resultmap){
+      function geocoderaddress(geocoder , resultsMap){
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results , status){
+          if(status == google.maps.GeocoderStatus.OK){
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map : resultsMap,
+              position : results[0].geometry.location
+            });
+            document.getElementById('firstComponent').innerHTML="The Formatted Address is:http://maps.googleapis.com/maps/api/geocode/JSON?address"; // PUT STUFF HERE
+            document.getElementById('secondComponent').innerHTML="The Location is:"; // PUT STUFF HERE
+            } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+
+          }
+        });
 
       }
 
