@@ -209,6 +209,9 @@
         document.getElementById('zoom-to-area').addEventListener('click',function(){
           zoomToArea();
         });
+        document.getElementById("search-button").addEventListener('click', function(){
+          searchWithinTime();
+        });
         
         
 
@@ -385,6 +388,33 @@
           }
         });
 
+      }
+
+      function searchWithinTime(){
+        //matrix service
+        var distancematrixservice = new google.maps.DistanceMatrixService();
+        var address = document.getElementById("search-text").value;
+        if (address != ''){
+          window.alert("you must add address!");
+        }
+        else{
+          hideListings();
+          // use distance matrix
+          var origins = [];
+          for (var i = 0; i < markers.length; i++){
+            origins[i] = markers[i].position;
+          }
+          var destination = address;
+          var mode = document.getElementById('mode').value;
+          // Now that both the origins and destination are defined, get all the
+          // info for the distances between them.
+          distanceMatrixService.getDistanceMatrix({
+            origins: origins,
+            destinations: [destination],
+            travelMode: google.maps.TravelMode[mode],
+            unitSystem: google.maps.UnitSystem.IMPERIAL,
+          }, function(response, status) {
+        }
       }
 
 
