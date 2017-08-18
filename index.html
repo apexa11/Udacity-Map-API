@@ -22,9 +22,26 @@
         <div id="floating-panel">
           <input id="address" type="textbox" placeholder = " Global search">
           <input id="submit" type="button" value="Go">
-          <div id ="firstComponent"></div>
-          <div id ="secondComponent"></div>
         </div>
+        <div>
+          <span class="text"> Within </span>
+          <select id="max-duration">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+          <select id="Mode">
+            <option value="DRIVING">driving</option>
+            <option value="WALKING">walking</option>
+            <option value="BICYCLING">bicycling</option>
+            <option value="TRANSIT">transit</option>
+          </select>
+          <span class = "text">of </span>
+          <input type="textbox" id="search-text" placeholder = "search">
+          <input type="button" id="search-button" value="GO">
+        </div>
+
       </div>
       
       <div id="map"></div>
