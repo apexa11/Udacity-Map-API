@@ -19,7 +19,14 @@
           <input id ="zoom-to-area-text" type ="text" placeholder = "Enter Your Place">
           <input id="zoom-to-area" type="button" value="Zoom">
         </div>
+        <div id="floating-panel">
+          <input id="address" type="textbox" VALUE="type your address">
+          <input id="submit" type="button" value="Geocode">
+          <div id ="firstComponent"></div>
+          <div id ="secondComponent"></div>
+        </div>
       </div>
+      
       <div id="map"></div>
     </div>
     <script>
@@ -108,6 +115,12 @@
           mapTypeControl: false
         });
 
+        // geocode address
+        var geocoder = new google.maps.Geocoder();
+        document.getElementById('submit').addEventListener('click', function(){
+          geocoderaddress(geocoder , map);
+        });
+
         // These are the real estate listings that will be shown to the user.
         // Normally we'd have these in a database instead.
         var locations = [
@@ -179,6 +192,7 @@
         document.getElementById('zoom-to-area').addEventListener('click',function(){
           zoomToArea();
         });
+        
         
 
       
@@ -337,6 +351,10 @@
               }
             });
         }
+      }
+
+      function geocoderaddress(geocoder , resultmap){
+
       }
 
 
