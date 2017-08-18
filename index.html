@@ -414,7 +414,20 @@
             travelMode: google.maps.TravelMode[mode],
             unitSystem: google.maps.UnitSystem.IMPERIAL,
           }, function(response, status) {
+            if (status != google.maps.GeocoderStatus.OK){
+              window.alert("'Error was :" + status)
+            }
+            else{
+                displayMarkerWithinTime(response);
+            }
+          });
         }
+      }
+
+      function displayMarkerWithinTime(response){
+        var max-duration = document.getElementById('max-duration').value;
+        var origin = response.originAddresses;
+        var destination = response.destinationAddresses;
       }
 
 
