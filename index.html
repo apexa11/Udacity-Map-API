@@ -392,9 +392,9 @@
 
       function searchWithinTime(){
         //matrix service
-        var distancematrixservice = new google.maps.DistanceMatrixService();
+        var distancematrixservice = new google.maps.DistanceMatrixService;
         var address = document.getElementById("search-text").value;
-        if (address != ''){
+        if (address == ''){
           window.alert("you must add address!");
         }
         else{
@@ -405,10 +405,10 @@
             origins[i] = markers[i].position;
           }
           var destination = address;
-          var mode = document.getElementById('mode').value;
+          var mode = document.getElementById('Mode').value;
           // Now that both the origins and destination are defined, get all the
           // info for the distances between them.
-          distanceMatrixService.getDistanceMatrix({
+          distancematrixservice.getDistanceMatrix({
             origins: origins,
             destinations: [destination],
             travelMode: google.maps.TravelMode[mode],
@@ -425,15 +425,14 @@
       }
 
       function displayMarkerWithinTime(response){
-        var max-duration = document.getElementById('max-duration').value;
+        var maxDuration = document.getElementById('max-duration').value;
         var origin = response.originAddresses;
         var destination = response.destinationAddresses;
         // Parse through the results, and get the distance and duration of each.
         // Because there might be  multiple origins and destinations we have a nested loop
         // Then, make sure at least 1 result was found.
         var atLeastOne = false;
-        for (var i = 0; i < origin.length; i++){
-          for (var i = 0; i < origins.length; i++) {
+        for (var i = 0; i < origins.length; i++){
           var results = response.rows[i].elements;
           for (var j = 0; j < results.length; j++) {
             var element = results[j];
@@ -454,6 +453,9 @@
                 // distance and duration
         }
       }
+  }
+}
+}
 
 
     </script>
