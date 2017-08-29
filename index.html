@@ -414,7 +414,7 @@
             travelMode: google.maps.TravelMode[mode],
             unitSystem: google.maps.UnitSystem.IMPERIAL,
           }, function(response, status) {
-            if (status != google.maps.GeocoderStatus.OK){
+            if (status !== google.maps.GeocoderStatus.OK){
               window.alert("'Error was :" + status)
             }
             else{
@@ -424,15 +424,15 @@
         }
       }
 
-      function displayMarkerWithinTime(response){
+      function displayMarkerWithinTime(response) {
         var maxDuration = document.getElementById('max-duration').value;
-        var origin = response.originAddresses;
-        var destination = response.destinationAddresses;
+        var origins = response.originAddresses;
+        var destinations = response.destinationAddresses;
         // Parse through the results, and get the distance and duration of each.
         // Because there might be  multiple origins and destinations we have a nested loop
         // Then, make sure at least 1 result was found.
         var atLeastOne = false;
-        for (var i = 0; i < origins.length; i++){
+        for (var i = 0; i < origins.length; i++) {
           var results = response.rows[i].elements;
           for (var j = 0; j < results.length; j++) {
             var element = results[j];
@@ -442,8 +442,8 @@
               // value for distance, but for now we only need the text.
               var distanceText = element.distance.text;
               // Duration value is given in seconds so we make it MINUTES. We need both the value
-              // and the text
-              var duration = element.duration.value/60;
+              // and the text.
+              var duration = element.duration.value / 60;
               var durationText = element.duration.text;
               if (duration <= maxDuration) {
                 //the origin [i] should = the markers[i]
@@ -451,11 +451,26 @@
                 atLeastOne = true;
                 // Create a mini infowindow to open immediately and contain the
                 // distance and duration
-        }
+                var infowindow = new google.maps.InfoWindow({
+                  content: durationText + ' away, ' + distanceText +
+                    '<div><input type=\"button\" value=\"View Route\" onclick =' +
+                    '\"displayDirections(&quot;' + origins[i] + '&quot;);\"></input></div>'
+                });
+                infowindow.open(map, markers[i]);
+                // Put this in so that this small window closes if the user clicks
+                // the marker, when the big infowindow opens
+                markers[i].infowindow = infowindow;
+                google.maps.event.addListener(markers[i], 'click', function() {
+                  this.infowindow.close();
+                });
+              }
+            }
+          }
       }
-  }
-}
-}
+      if (!atLeastOne) {
+          window.alert('We could not find any locations within that distance!');
+        }
+    }
 
 
     </script>
