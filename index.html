@@ -132,6 +132,12 @@
           mapTypeControl: false
         });
 
+        // autocomplete
+        var timeAutocomplete = new google.maps.places.Autocomplete(
+        	document.getElementById('search-text'));
+        var zoomAutocomplete = new google.maps.places.Autocomplete(
+        	document.getElementById('zoom-to-area-text'));
+
         // geocode address
         var geocoder = new google.maps.Geocoder();
         document.getElementById('submit').addEventListener('click', function(){
