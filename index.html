@@ -472,6 +472,38 @@
         }
     }
 
+    function displayDirections(origin){
+    	hideListings();
+    	var directionService = new google.maps.DirectionsService;
+    	// Get the destination address from the user entered value.
+        var destinationAddress = document.getElementById('search-text').value;
+        // Get mode again from the user entered value.
+        var mode = document.getElementById('Mode').value;
+        directionService.route({
+        	// The origin is the passed in marker's position.
+          origin: origin,
+          // The destination is user entered address.
+          destination: destinationAddress,
+          travelMode: google.maps.TravelMode[mode]
+      }, function(response , status){
+      	if (status == google.maps.DirectionsStatus.OK){
+      		var directionDisplay = new google.maps.DirectionsRenderer({
+      			map: map,
+              directions: response,
+              draggable: true,
+              polylineOptions: {
+                strokeColor: 'green'
+              }
+            });
+      	}
+      	else{
+      		window.alert('Directions request failed due to ' + status);
+      	}
+
+      		});
+      	}
+      	
+
 
     </script>
 
