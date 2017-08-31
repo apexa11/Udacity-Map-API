@@ -224,7 +224,9 @@
         }
 
         document.getElementById('show-listings').addEventListener('click', showListings);
-        document.getElementById('hide-listings').addEventListener('click', hideListings);
+        document.getElementById('hide-listings').addEventListener('click', function(){
+        	hideMarkers(markers);
+        });
         document.getElementById('toggle-drawing').addEventListener('click', function(){
         	toggleDrawing(drawingManager);
           });
@@ -240,7 +242,7 @@
         searchbox.addListener('places_changed', function(){
         	searchBoxPlaces(this);
         });
-        document.getElementById('go-places').addListener('click', textsearchPlaces); 
+        document.getElementById('go-places').addEventListener('click', textsearchPlaces); 
         
         
 
@@ -540,13 +542,13 @@
       		if(places.length == 0)
       			 window.alert('We did not find any places matching that search!');
         }
-      }
+      
       	function textsearchPlaces(){
       		var bounds = map.getBounds();
       		hideMarkers(placeMarkers);
       		var placesService = new google.maps.places.PlacesService(map);
       		placesService.textSearch({
-      			query: document.getElementById('places-search').value;
+      			query: document.getElementById('places-search').value,
       			bounds : bounds
       		}, function(results, status){
       			if (status == google.maps.places.PlacesServiceStatus.OK){
@@ -556,7 +558,39 @@
 
       		});
       	}
-      	
+      	function createMarkersForPlaces(places){
+      		var bounds = new google.maps.LatLngBounds();
+      		for(var i = 0; i < places.length; i++) {
+      			var place = places[i];
+      			var icon = {
+      			url: place.icon,
+            	size: new google.maps.Size(35, 35),
+            	origin: new google.maps.Point(0, 0),
+            	anchor: new google.maps.Point(15, 34),
+            	scaledSize: new google.maps.Size(25, 25)
+          };
+          // Create a marker for each place.
+          var marker = new google.maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location,
+            id: place.id
+          });
+          // If a marker is clicked, do a place details search on it in the next function.
+          marker.addListener('click', function() {
+          getPlacesDetails(this, places);
+          });
+      		placeMarkers.push(marker);
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        }
+        map.fitBounds(bounds);
+      }
 
 
     </script>
