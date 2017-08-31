@@ -238,7 +238,7 @@
         // Listen for the event fired when the user selects a prediction from the
         // picklist and retrieve more details for that place.
         searchbox.addListener('places_changed', function(){
-        	earchBoxPlaces(this);
+        	searchBoxPlaces(this);
         });
         document.getElementById('go-places').addListener('click', textsearchPlaces); 
         
@@ -528,6 +528,31 @@
       	else{
       		window.alert('Directions request failed due to ' + status);
       	}
+
+      		});
+      	}
+
+      	function searchBoxPlaces(searchBox){
+      		hideMarkers(placeMarkers);
+      		var places = searchBox.getPlaces();
+      		// for each place ,get the icon ,name and location
+      		createMarkersForPlaces(places);
+      		if(places.length == 0)
+      			 window.alert('We did not find any places matching that search!');
+        }
+      }
+      	function textsearchPlaces(){
+      		var bounds = map.getBounds();
+      		hideMarkers(placeMarkers);
+      		var placesService = new google.maps.places.PlacesService(map);
+      		placesService.textSearch({
+      			query: document.getElementById('places-search').value;
+      			bounds : bounds
+      		}, function(results, status){
+      			if (status == google.maps.places.PlacesServiceStatus.OK){
+      				createMarkersForPlaces(result);
+      			}
+      		
 
       		});
       	}
