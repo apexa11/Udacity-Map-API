@@ -59,6 +59,7 @@
 
       // Create a new blank array for all the listing markers.
       var markers = [];
+      var placeMarkers = [];
 
       // global polygon
       var polygon = null;
@@ -148,6 +149,11 @@
         //bound zoom-area
         zoomAutocomplete.bindTo('bounds',map);
 
+        //autocomplete searchbox
+        var searchbox = new google.maps.places.SearchBox(
+        	document.getElementById('places-search'));
+        searchbox.setBounds(map.getBounds());
+
         // geocode address
         var geocoder = new google.maps.Geocoder();
         document.getElementById('submit').addEventListener('click', function(){
@@ -228,6 +234,13 @@
         document.getElementById("search-button").addEventListener('click', function(){
           searchWithinTime();
         });
+
+        // Listen for the event fired when the user selects a prediction from the
+        // picklist and retrieve more details for that place.
+        searchbox.addListener('places_changed', function(){
+        	earchBoxPlaces(this);
+        });
+        document.getElementById('go-places').addListener('click', textsearchPlaces); 
         
         
 
@@ -316,7 +329,7 @@
       }
 
       // This function will loop through the listings and hide them all.
-      function hideListings() {
+      function hideMarkers(markers) {
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(null);
         }
