@@ -8,6 +8,10 @@
       <div class="options-box">
         <h1>Find Your New NYC Home</h1>
         <div>
+          <div>
+            <input id ="zoom-to-area-text" type ="text" placeholder = "Enter Your Place">
+            <input id="zoom-to-area" type="button" value="Zoom">
+          </div>
           <input id="show-listings" type="button" value="Show Listings">
           <input id="hide-listings" type="button" value="Hide Listings">
           <hr>
@@ -15,17 +19,20 @@
           <input id="toggle-drawing" type="button" value = "Drawing Tools">
         </div>
         <!--Geocoding start -->
-        <div>
-          <input id ="zoom-to-area-text" type ="text" placeholder = "Enter Your Place">
-          <input id="zoom-to-area" type="button" value="Zoom">
-        </div>
+        
         <hr>
         <div id="floating-panel">
           <input id="address" type="textbox" placeholder = " Global search">
           <input id="submit" type="button" value="Go">
         </div>
         <div>
+          
+          <input type="textbox" id="search-text" placeholder = "search">
+          <input type="button" id="search-button" value="GO">
+        </div>
+        <span>
           <span class="text"> Within </span>
+          <span class = "text">of </span>
           <select id="max-duration">
             <option value="10">10</option>
             <option value="15">15</option>
@@ -39,6 +46,7 @@
             <option value="TRANSIT">transit</option>
           </select>
           <br>
+          <hr>
           <span class = "text">of </span>
           <input type="textbox" id="search-text" placeholder = "search">
           <input type="button" id="search-button" value="GO">
@@ -429,7 +437,7 @@
           window.alert("you must add address!");
         }
         else{
-          hideListings();
+          hideMarkers(markers);
           // use distance matrix
           var origins = [];
           for (var i = 0; i < markers.length; i++){
@@ -504,7 +512,7 @@
     }
 
     function displayDirections(origin){
-    	hideListings();
+    	hideMarkers(markers);
     	var directionService = new google.maps.DirectionsService;
     	// Get the destination address from the user entered value.
         var destinationAddress = document.getElementById('search-text').value;
@@ -552,7 +560,7 @@
       			bounds : bounds
       		}, function(results, status){
       			if (status == google.maps.places.PlacesServiceStatus.OK){
-      				createMarkersForPlaces(result);
+      				createMarkersForPlaces(results);
       			}
       		
 
@@ -575,11 +583,11 @@
             icon: icon,
             title: place.name,
             position: place.geometry.location,
-            id: place.id
+            id: place.place_id
           });
           // If a marker is clicked, do a place details search on it in the next function.
           marker.addListener('click', function() {
-          getPlacesDetails(this, places);
+          getPlacesDetails(this, place);
           });
       		placeMarkers.push(marker);
           if (place.geometry.viewport) {
@@ -590,6 +598,48 @@
           }
         }
         map.fitBounds(bounds);
+      }
+      function getPlacesDetails(marker,infowindow){
+      	var service = new google.maps.places.PlacesService(map);
+      	service.getDetails({
+      		placeId : marker.id
+      	}, function(place, status) {
+      		if (status == google.maps.places.PlacesServiceStatus.OK){
+      			infowindow.marker = marker;
+      			var innerHTML = '<div>';
+          if (place.name) {
+            innerHTML += '<strong>' + place.name + '</strong>';
+          }
+          if (place.formatted_address) {
+            innerHTML += '<br>' + place.formatted_address;
+          }
+          if (place.formatted_phone_number) {
+            innerHTML += '<br>' + place.formatted_phone_number;
+          }
+          if (place.opening_hours) {
+            innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                place.opening_hours.weekday_text[0] + '<br>' +
+                place.opening_hours.weekday_text[1] + '<br>' +
+                place.opening_hours.weekday_text[2] + '<br>' +
+                place.opening_hours.weekday_text[3] + '<br>' +
+                place.opening_hours.weekday_text[4] + '<br>' +
+                place.opening_hours.weekday_text[5] + '<br>' +
+                place.opening_hours.weekday_text[6];
+          }
+          if (place.photos) {
+            innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+                {maxHeight: 100, maxWidth: 200}) + '">';
+          }
+          innerHTML += '</div>';
+          infowindow.setContent(innerHTML);
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+      		});
+      	}
+
+      	});
       }
 
 
