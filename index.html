@@ -170,6 +170,8 @@
                 document.getElementById('search-text'));
             var zoomAutocomplete = new google.maps.places.Autocomplete(
                 document.getElementById('zoom-to-area-text'));
+            var pubAutocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('address'));
             //bound zoom-area
             zoomAutocomplete.bindTo('bounds', map);
 
