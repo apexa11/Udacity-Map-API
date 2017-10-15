@@ -500,7 +500,7 @@
                     travelMode: google.maps.TravelMode[mode],
                     unitSystem: google.maps.UnitSystem.IMPERIAL,
                 }, function(response, status) {
-                    if (status !== google.maps.GeocoderStatus.OK) {
+                    if (status !== google.maps.DistanceMatrixStatus.OK) {
                         window.alert("'Error was :" + status)
                     } else {
                         displayMarkerWithinTime(response);
