@@ -63,7 +63,7 @@
                 <br>
                 <span>
         <div class="near-search">Search near by places </div>
-        <input id="places-search" type="text" placeholder ="ex. Pizza delivery in NYC">
+        <input id="places-search" type="text" placeholder ="ex. Pizza near Empire State Building">
         <input id="go-places" type="button" value="Search">
         </span>
 
@@ -632,9 +632,16 @@
                     position: place.geometry.location,
                     id: place.place_id
                 });
+                // Create a single infowindow to be used with the place details information
+                // so that only one is open at once.
+                var placeInfoWindow = new google.maps.InfoWindow();
                 // If a marker is clicked, do a place details search on it in the next function.
                 marker.addListener('click', function() {
-                    getPlacesDetails(this, place);
+                    if (placeInfoWindow.marker == this) {
+                        console.log("This infowindow already is on this marker!");
+                    } else {
+                        getPlacesDetails(this, placeInfoWindow);
+                    }
                 });
                 placeMarkers.push(marker);
                 if (place.geometry.viewport) {
@@ -681,8 +688,10 @@
                         }) + '">';
                     }
                     innerHTML += '</div>';
+                
                     infowindow.setContent(innerHTML);
                     infowindow.open(map, marker);
+                
                     // Make sure the marker property is cleared if the infowindow is closed.
                     infowindow.addListener('closeclick', function() {
                         infowindow.marker = null;
